@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Museum Puzzle — Piece Together Famous Paintings</title>
+<meta name="description" content="Reassemble iconic masterpieces piece by piece. Explore galleries of famous paintings from the Renaissance to Impressionism. Free to play.">
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Inter:wght@400;500;600&display=swap');
+
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: #1A1A2E;
+    color: #F0E6D3;
+    font-family: 'Inter', -apple-system, sans-serif;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  .page {
+    max-width: 640px;
+    margin: 0 auto;
+    padding: 48px 24px 64px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+
+  /* App Icon */
+  .app-icon {
+    width: 120px;
+    height: 120px;
+    border-radius: 27px;
+    background: linear-gradient(135deg, #16213E 0%, #1A1A2E 100%);
+    border: 2px solid rgba(196, 163, 90, 0.4);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.4);
+    overflow: hidden;
+  }
+
+  .app-icon img {
+    width: 100%;
+    height: 100%;
+    border-radius: 27px;
+    object-fit: cover;
+  }
+
+  /* Replace this placeholder with your real icon */
+  .app-icon-placeholder {
+    font-size: 48px;
+    line-height: 1;
+  }
+
+  /* Title */
+  .title {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: 40px;
+    font-weight: 700;
+    color: #F0E6D3;
+    margin-top: 32px;
+    letter-spacing: 1px;
+  }
+
+  .tagline {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-style: italic;
+    font-size: 18px;
+    color: #C4A35A;
+    margin-top: 12px;
+    line-height: 1.5;
+  }
+
+  /* App Store Button */
+  .app-store-link {
+    display: inline-block;
+    margin-top: 32px;
+    transition: transform 0.2s ease, opacity 0.2s ease;
+  }
+
+  .app-store-link:hover {
+    transform: scale(1.05);
+  }
+
+  .app-store-link:active {
+    transform: scale(0.98);
+    opacity: 0.9;
+  }
+
+  .app-store-link img {
+    height: 54px;
+  }
+
+  /* Badge fallback if image doesn't load */
+  .app-store-badge-fallback {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    background: #fff;
+    color: #000;
+    padding: 10px 24px;
+    border-radius: 12px;
+    font-size: 18px;
+    font-weight: 600;
+    text-decoration: none;
+  }
+
+  /* Screenshots */
+  .screenshots {
+    margin-top: 48px;
+    width: 100%;
+  }
+
+  .screenshots-heading {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: 14px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: #8A8A9A;
+    margin-bottom: 20px;
+  }
+
+  .screenshots-row {
+    display: flex;
+    gap: 12px;
+    justify-content: center;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+    padding: 4px 0;
+  }
+
+  .screenshot {
+    flex: 0 0 auto;
+    width: 180px;
+    height: 390px;
+    border-radius: 16px;
+    background: #16213E;
+    border: 1px solid rgba(196, 163, 90, 0.2);
+    overflow: hidden;
+    scroll-snap-align: center;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .screenshot img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .screenshot-placeholder {
+    color: #8A8A9A;
+    font-size: 13px;
+    padding: 16px;
+  }
+
+  /* Description */
+  .description {
+    margin-top: 48px;
+    max-width: 480px;
+  }
+
+  .description p {
+    font-size: 16px;
+    line-height: 1.7;
+    color: #E8DCC8;
+  }
+
+  /* Features */
+  .features {
+    margin-top: 40px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    width: 100%;
+    max-width: 400px;
+  }
+
+  .feature {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    text-align: left;
+    padding: 16px 20px;
+    background: rgba(22, 33, 62, 0.6);
+    border-radius: 12px;
+    border: 1px solid rgba(196, 163, 90, 0.1);
+  }
+
+  .feature-icon {
+    font-size: 24px;
+    flex-shrink: 0;
+    width: 32px;
+    text-align: center;
+  }
+
+  .feature-text {
+    font-size: 15px;
+    color: #E8DCC8;
+    line-height: 1.4;
+  }
+
+  .feature-text strong {
+    color: #C4A35A;
+  }
+
+  /* Divider */
+  .divider {
+    width: 60px;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, #C4A35A, transparent);
+    margin: 48px 0;
+  }
+
+  /* Footer */
+  .footer {
+    margin-top: 48px;
+    font-size: 13px;
+    color: #8A8A9A;
+    line-height: 1.6;
+  }
+
+  .footer a {
+    color: #C4A35A;
+    text-decoration: none;
+  }
+
+  .footer a:hover {
+    text-decoration: underline;
+  }
+
+  /* Responsive */
+  @media (max-width: 480px) {
+    .page { padding: 36px 20px 48px; }
+    .title { font-size: 32px; }
+    .tagline { font-size: 16px; }
+    .app-icon { width: 100px; height: 100px; border-radius: 22px; }
+    .app-icon img { border-radius: 22px; }
+    .screenshot { width: 150px; height: 325px; border-radius: 12px; }
+    .screenshots-row { gap: 10px; }
+  }
+
+  @media (max-width: 360px) {
+    .screenshot { width: 130px; height: 282px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="page">
+
+  <!-- App Icon -->
+  <div class="app-icon">
+    <!-- Replace with: <img src="app-icon.png" alt="Museum Puzzle"> -->
+    <span class="app-icon-placeholder">&#127912;</span>
+  </div>
+
+  <!-- Title & Tagline -->
+  <h1 class="title">Museum Puzzle</h1>
+  <p class="tagline">Piece together the world's most famous paintings</p>
+
+  <!-- App Store Button -->
+  <a href="https://apps.apple.com/app/museum-puzzle/id6759270029" class="app-store-link" aria-label="Download on the App Store">
+    <img src="https://developer.apple.com/assets/elements/badges/download-on-the-app-store.svg"
+         alt="Download on the App Store"
+         onerror="this.parentElement.innerHTML='<span class=\'app-store-badge-fallback\'>&#63743; Download on the App Store</span>'">
+  </a>
+
+  <div class="divider"></div>
+
+  <!-- Description -->
+  <div class="description">
+    <p>Reassemble iconic masterpieces piece by piece. Explore curated galleries of famous paintings from the Renaissance to Impressionism. Free to play.</p>
+  </div>
+
+  <!-- Features -->
+  <div class="features">
+    <div class="feature">
+      <span class="feature-icon">&#127748;</span>
+      <span class="feature-text"><strong>50 paintings</strong> across 6 curated galleries</span>
+    </div>
+    <div class="feature">
+      <span class="feature-icon">&#129513;</span>
+      <span class="feature-text"><strong>3 difficulty levels</strong> from casual to challenging</span>
+    </div>
+    <div class="feature">
+      <span class="feature-icon">&#127963;</span>
+      <span class="feature-text"><strong>Museum aesthetic</strong> — dark, elegant, premium feel</span>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- Screenshots -->
+  <div class="screenshots">
+    <p class="screenshots-heading">Screenshots</p>
+    <div class="screenshots-row">
+      <div class="screenshot">
+        <!-- Replace with: <img src="screenshot-1.png" alt="Museum Puzzle lobby screen"> -->
+        <span class="screenshot-placeholder">Screenshot 1<br>Replace with<br>App Store screenshot</span>
+      </div>
+      <div class="screenshot">
+        <!-- Replace with: <img src="screenshot-2.png" alt="Museum Puzzle gallery view"> -->
+        <span class="screenshot-placeholder">Screenshot 2<br>Replace with<br>App Store screenshot</span>
+      </div>
+      <div class="screenshot">
+        <!-- Replace with: <img src="screenshot-3.png" alt="Museum Puzzle gameplay"> -->
+        <span class="screenshot-placeholder">Screenshot 3<br>Replace with<br>App Store screenshot</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- Second CTA -->
+  <a href="https://apps.apple.com/app/museum-puzzle/id6759270029" class="app-store-link" aria-label="Download on the App Store">
+    <img src="https://developer.apple.com/assets/elements/badges/download-on-the-app-store.svg"
+         alt="Download on the App Store"
+         onerror="this.parentElement.innerHTML='<span class=\'app-store-badge-fallback\'>&#63743; Download on the App Store</span>'">
+  </a>
+
+  <!-- Footer -->
+  <p class="footer">
+    &copy; 2026 Museum Puzzle<br>
+    <a href="mailto:contact@museumpuzzle.com">Contact</a>
+  </p>
+
+</div>
+
+</body>
+</html>
